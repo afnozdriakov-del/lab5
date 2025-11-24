@@ -6,49 +6,68 @@ using namespace std;
 // ФУНКЦІЇ ПЕРЕВІРКИ КОРЕКТНОСТІ ВВЕДЕННЯ
 // ============================================================
 
-bool IsValidDouble(double x) {
-    return !cin.fail();
-}
-
-bool IsValidPositive(double x) {
-    return (!cin.fail() && x > 0);
-}
-
-bool IsValidInt(int x) {
-    return (!cin.fail());
-}
+bool IsValidDouble(double x) { return !cin.fail(); }
+bool IsValidPositive(double x) { return (!cin.fail() && x > 0); }
+bool IsValidInt(int x) { return (!cin.fail()); }
 
 // ============================================================
-// ЗАДАЧА 1 — FIGURE 26 
-// Перевірка, чи потрапляє точка у чорну фігуру
+// ЗАДАЧА 1 — FIGURE 26 (оновлена версія)
+// Підрахунок кількості точок у чорній області
 // ============================================================
 
 void TaskFigure26() {
-    double x, y;
-
+    int N;
     cout << "\n--- Задача 1: Figure 26 ---\n";
 
-    cout << "Введiть x: ";
-    cin >> x;
-    if (!IsValidDouble(x)) { cout << "Помилка! Некоректне число.\n"; cin.clear(); cin.ignore(1000, '\n'); return; }
+    cout << "Скiльки точок будете вводити? ";
+    cin >> N;
 
-    cout << "Введiть y: ";
-    cin >> y;
-    if (!IsValidDouble(y)) { cout << "Помилка! Некоректне число.\n"; cin.clear(); cin.ignore(1000, '\n'); return; }
+    if (!IsValidInt(N) || N <= 0) {
+        cout << "Помилка! Некоректне число.\n";
+        cin.clear(); cin.ignore(1000, '\n');
+        return;
+    }
 
-    // Умова з Figure 26 (твої попередні умови)
-    bool insideSquare = (x >= -1 && x <= 1 && y >= -1 && y <= 1);
-    bool whiteCircle = (x * x + y * y <= 1);
+    int count = 0; // кількість точок у фігурі
 
-    if (insideSquare && !whiteCircle)
-        cout << "Точка (" << x << ", " << y << ") — у чорнiй областi.\n";
-    else
-        cout << "Точка не в чорнiй областi.\n";
+    for (int i = 1; i <= N; i++) {
+        double x, y;
+
+        cout << "\nТочка №" << i << "\n";
+        cout << "Введiть x: ";
+        cin >> x;
+        if (!IsValidDouble(x)) {
+            cout << "Помилка! Некоректне число.\n";
+            cin.clear(); cin.ignore(1000, '\n');
+            return;
+        }
+
+        cout << "Введiть y: ";
+        cin >> y;
+        if (!IsValidDouble(y)) {
+            cout << "Помилка! Некоректне число.\n";
+            cin.clear(); cin.ignore(1000, '\n');
+            return;
+        }
+
+        bool insideSquare = (x >= -1 && x <= 1 && y >= -1 && y <= 1);
+        bool whiteCircle = (x * x + y * y <= 1);
+
+        if (insideSquare && !whiteCircle) {
+            cout << "→ Точка у чорнiй областi.\n";
+            count++;
+        } else {
+            cout << "→ Точка НЕ в чорнiй областi.\n";
+        }
+    }
+
+    cout << "\n============================\n";
+    cout << "Кiлькiсть точок у чорнiй областi: " << count << "\n";
+    cout << "============================\n";
 }
 
 // ============================================================
-// ЗАДАЧА 2 — РЯД 25 
-// Обчислення суми ряду
+// ЗАДАЧА 2 — РЯД 25
 // ============================================================
 
 double f(int n, double x) {
@@ -88,7 +107,7 @@ void TaskSeries25() {
 }
 
 // ============================================================
-// ЗАДАЧА 3 — ЗБІЖНІСТЬ/РОЗБІЖНІСТЬ 
+// ЗАДАЧА 3 — ЗБІЖНІСТЬ/РОЗБІЖНІСТЬ РЯДУ
 // ============================================================
 
 double u(int n, double x) {
@@ -133,12 +152,15 @@ void TaskConvergence() {
         }
 
         n++;
-        if (n > 1e7) { cout << "Можлива розбiжнiсть (перевищено лiмiт n)\n"; return; }
+        if (n > 1e7) {
+            cout << "Можлива розбiжнiсть (перевищено лiмiт n)\n";
+            return;
+        }
     }
 }
 
 // ============================================================
-// ГОЛОВНЕ МЕНЮ 
+// ГОЛОВНЕ МЕНЮ
 // ============================================================
 
 int main() {
@@ -172,4 +194,3 @@ int main() {
 
     return 0;
 }
-
